@@ -1,6 +1,7 @@
 
-
-function filtervotes() {
+function filtervotes(fileContent) {
+	splitContentArray = fileContent.split('\n');
+	return splitContentArray.length;
 
 }
 
