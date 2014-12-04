@@ -3,7 +3,7 @@ fs = require('fs');
 function randGer(files) {
 	for (var i = 0; i < files.length; i++) {
 		var temp = files[i];
-		var indexSomething = Math.floor(Math.random()) % files.length;
+		var indexSomething = Math.floor(Math.random() * files.length);
 		files[i] = files[indexSomething];
 		files[indexSomething] = temp;
 	};
@@ -30,10 +30,10 @@ function Iterator(files,randomGen) {
 }
 
 // files = parseDirectory("../");
-// it = new Iterator(files, randGer);
-// for (var i = 0; i < files.length; i++) {
-// 	console.log(it.next());
-// };
+//  it = new Iterator(files, randGer);
+//  for (var i = 0; i < files.length; i++) {
+//  	console.log(it.next());
+//  };
 
 module.exports.Iterator = Iterator;
 module.exports.randGer = randGer;
