@@ -10,11 +10,11 @@ chai.use(sinonChai);
 
 var Iterator = require('../src/iterator.js').Iterator;
 var randGer = require('../src/iterator.js').randGer;
-var iteratorCaller = require('../src/iterator.js').iteratorCaller;
-
+var parseDirectory = require('../src/iterator.js').parseDirectory;
 suite('iterator', function() {
 
- test('', function() {
+ test('["1.txt","2.txt","3.txt","4.txt","5.txt","6.txt","7.th"] should gives us '+
+  '["1.txt","2.txt","3.txt","4.txt","5.txt","6.txt","7.th"]', function() {
     // var testRandomData = sinon.stub();
     // testRandomData.withArgs("/var/files").returns(testFiles.slice(0,[testRandom+1]));
     var testFiles = ["1.txt","2.txt","3.txt","4.txt","5.txt","6.txt","7.th"];
@@ -28,7 +28,8 @@ suite('iterator', function() {
     };
     assert.deepEqual( expectedResult, results);
   });
- test('', function() {
+ test('["1.txt","2.txt","3.txt","4.txt","5.txt","6.txt","7.th"] should gives us'+
+  '["1.txt","4.txt","5.txt","3.txt","2.txt","7.txt","6.th"]', function() {
     var testFiles = ["1.txt","2.txt","3.txt","4.txt","5.txt","6.txt","7.th"];
     var results = [];
     var expectedResult = ["1.txt","4.txt","5.txt","3.txt","2.txt","7.txt","6.th"];
@@ -39,6 +40,21 @@ suite('iterator', function() {
       results.push(iterator.next());
     };
     assert.deepEqual( expectedResult, results);
+  });
+ test('test file reading', function() {
+    var testRandomData = sinon.stub();
+    var expectedResult = [ '.git',
+  'fizzbuzz',
+  'iterator',
+  'magneto',
+  'merge-arrays',
+  'number-complement',
+  'popular-recipe',
+  'popular-recipe-demo',
+  'string-calculator' ];
+    testRandomData.withArgs("/var/files").returns(expectedResult);
+    var files = parseDirectory("../");
+    assert.deepEqual( expectedResult, files);
   });
 
 });
