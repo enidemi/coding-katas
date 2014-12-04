@@ -8,30 +8,28 @@ var sinonChai = require('sinon-chai');
 chai.should();
 chai.use(sinonChai);
 
-var iterator = require('../src/iterator.js').iterator;
+var Iterator = require('../src/iterator.js').Iterator;
+var randGer = require('../src/iterator.js').randGer;
+var iteratorCaller = require('../src/iterator.js').iteratorCaller;
 
 var testRandom = 2;
 var testFiles = ["1.txt","2.txt","3.txt","4.txt","5.txt","6.txt","7.th"];
+var testRandomOrder = ["7.th","5.txt","3.txt","1.txt","2.txt","6.txt","4.txt"];
 
 suite('iterator', function() {
 
-  // test( 'first', function() {
-  //   var testData = sinon.stub();
-  //   testData.withArgs("/var/files").returns(testRandom);
-  //   assert.deepEqual( 1, iterator(testData("/var/files")) );
-  // });
+ test('', function() {
+    // var testRandomData = sinon.stub();
+    // testRandomData.withArgs("/var/files").returns(testFiles.slice(0,[testRandom+1]));
+    var results = [];
+    var iterator = new Iterator(testFiles,function(testFiles){
+      return testFiles;
+    });
+    for (var i = testFiles.length - 1; i >= 0; i--) {
+      results.push(iterator.next());
+    };
 
-    test( 'return everything', function() {
-    var testData = sinon.stub();
-    testData.withArgs("/var/files").returns(testFiles);
-    assert.deepEqual( testFiles, iterator(testData("/var/files")) );
-  });
-    test( 'return a single filename', function() {
-    var testData = sinon.stub();
-    testData.withArgs("/var/files").returns(testFiles);
-    var testRandomData = sinon.stub();
-    testRandomData.withArgs("/var/files").returns(testFiles.slice(0,[testRandom-1]));
-    assert.deepEqual( ["1.txt"], iterator(testRandomData("/var/files")) );
+    assert.deepEqual( testFiles, results);
   });
 
 });
