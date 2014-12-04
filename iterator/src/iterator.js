@@ -14,7 +14,7 @@ function Iterator(files,randomGen) {
 	this.files = randomGen(files);
 	this.index = 0;
 	this.next = function(){
-		var item =files[this.index];
+		var item =this.files[this.index];
 		this.index++;
 		if (this.index>=files.length) {
 			this.files = randomGen(files);
