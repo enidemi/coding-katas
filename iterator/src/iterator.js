@@ -29,11 +29,11 @@ function Iterator(path,randomGen,dirParser) {
 	}
 }
 
- it = new Iterator (".",randGer,parseDirectory);
+// it = new Iterator (".",randGer,parseDirectory);
 
- for (var i = 0; i < 20; i++) {
- 	console.log(it.next());
- }
+// for (var i = 0; i < 20; i++) {
+// 	console.log(it.next());
+// }
 
 module.exports.Iterator = Iterator;
 module.exports.randGer = randGer;
