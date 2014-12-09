@@ -11,50 +11,25 @@ chai.use(sinonChai);
 var Iterator = require('../src/iterator.js').Iterator;
 var randGer = require('../src/iterator.js').randGer;
 var parseDirectory = require('../src/iterator.js').parseDirectory;
+
 suite('iterator', function() {
-
- test('["1.txt","2.txt","3.txt","4.txt","5.txt","6.txt","7.th"] should gives us '+
-  '["1.txt","2.txt","3.txt","4.txt","5.txt","6.txt","7.th"]', function() {
-    // var testRandomData = sinon.stub();
-    // testRandomData.withArgs("/var/files").returns(testFiles.slice(0,[testRandom+1]));
-    var testFiles = ["1.txt","2.txt","3.txt","4.txt","5.txt","6.txt","7.th"];
-    var results = [];
-    var expectedResult = ["1.txt","2.txt","3.txt","4.txt","5.txt","6.txt","7.th"];
-    var iterator = new Iterator(testFiles,function(testFiles){
-      return expectedResult;
-    });
-    for (var i = testFiles.length - 1; i >= 0; i--) {
-      results.push(iterator.next());
-    };
-    assert.deepEqual( expectedResult, results);
+ test('random generator', function() {
+ 	var fileArray = [12,23,44,21];
+ 	var results = randGer(fileArray);
+ 	for (var i = 0; i < results.length; i++) {
+ 		assert(fileArray.indexOf(results[i])>=0);
+ 	};
   });
- test('["1.txt","2.txt","3.txt","4.txt","5.txt","6.txt","7.th"] should gives us'+
-  '["1.txt","4.txt","5.txt","3.txt","2.txt","7.txt","6.th"]', function() {
-    var testFiles = ["1.txt","2.txt","3.txt","4.txt","5.txt","6.txt","7.th"];
-    var results = [];
-    var expectedResult = ["1.txt","4.txt","5.txt","3.txt","2.txt","7.txt","6.th"];
-    var iterator = new Iterator(testFiles,function(testFiles){
-      return expectedResult;
-    });
-    for (var i = testFiles.length - 1; i >= 0; i--) {
-      results.push(iterator.next());
-    };
-    assert.deepEqual( expectedResult, results);
+ test('Iterator FS Mock', function() {
+ 	var files = ["Baka1","Baka2","Baka3"];
+ 	var fakeDirParse = sinon.stub().returns(files);
+ 	var expectedFiles = ["Baka2","Baka1","Baka3"];
+ 	var fakeRandGen = sinon.stub().returns(expectedFiles);
+ 	var iterator = new Iterator("somestring", fakeRandGen,fakeDirParse);
+ 	var results =[];
+ 	for (var i = 0; i < files.length; i++) {
+ 		results.push(iterator.next());
+ 	};
+ 	assert.deepEqual(expectedFiles,results);
   });
- test('test file reading', function() {
-    var testRandomData = sinon.stub();
-    var expectedResult = [ '.git',
-  'fizzbuzz',
-  'iterator',
-  'magneto',
-  'merge-arrays',
-  'number-complement',
-  'popular-recipe',
-  'popular-recipe-demo',
-  'string-calculator' ];
-    testRandomData.withArgs("/var/files").returns(expectedResult);
-    var files = parseDirectory("../");
-    assert.deepEqual( expectedResult, files);
-  });
-
 });
