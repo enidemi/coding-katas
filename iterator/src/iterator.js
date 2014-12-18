@@ -1,40 +1,42 @@
 fs = require('fs');
 
-function randGer(files) {
-	for (var i = 0; i < files.length; i++) {
-		var temp = files[i];
-		randomIndex = Math.floor(Math.random() * files.length);
-		files[i] = files[randomIndex];
-		files[randomIndex] = temp;
-	};
-	return files;
-}
-
-function parseDirectory(directory) {
-	return files = fs.readdirSync(directory);
-}
-
-function Iterator(path,randomGen,dirParser) {
-	var files = dirParser(path);
-	this.files = randomGen(files);
+function FileLottery(dir) {
 	this.index = 0;
-	this.next=function(){
-		var item = this.files[this.index];
-		this.index++;
-		if(this.index>=this.files.length) {
-			this.index = 0;
-			this.files = randomGen(files);
+	this.fileList = this.fileReader(dir);
+}
+
+FileLottery.prototype = {
+	shuffle: function(fileList) {
+		var shuffledList = fileList.slice();
+		for (var i = 0; i < shuffledList.length; i++) {
+			var random = this.randomInRange(0, i);
+			var tmp = shuffledList[random];
+			shuffledList[random] = shuffledList[0];
+			shuffledList[0] = tmp;
 		}
-		return item;
+		return shuffledList;
+	},
+
+	randomInRange: function(min, max) {
+		return Math.floor(Math.random() * (max - min + 1)) + min;
+	},
+
+	fileReader: function(dir) {
+		return dir[0];
+	}
+
+}
+
+function Iterator(fileList) {
+	this.index = 0;
+	this.fileList = fileList.slice();
+}
+
+Iterator.prototype = {
+	next: function() {
+		return this.fileList[this.index++];
 	}
 }
 
-// it = new Iterator (".",randGer,parseDirectory);
-
-// for (var i = 0; i < 20; i++) {
-// 	console.log(it.next());
-// }
-
+module.exports.FileLottery = FileLottery;
 module.exports.Iterator = Iterator;
-module.exports.randGer = randGer;
-module.exports.parseDirectory = parseDirectory;
